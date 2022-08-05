@@ -10,38 +10,49 @@ public class PlayerMovement : MonoBehaviour
     public Animator animator;
     public Vector3 karakterinPozisyonu;
     public Camera cam;
+    public bool evinIcinde = false;
 
     void Update()
     {
         karakterinPozisyonu = transform.position;
 
-        
-        if(karakterinPozisyonu.y > -5)
+        if (evinIcinde)
         {
-            float camx = Mathf.Clamp(transform.position.x, -2, 2);
-            float camy = Mathf.Clamp(transform.position.y, 0, 2);
-
-            cam.transform.position = new Vector3(camx, camy, -10);
+            float camy = Mathf.Clamp(transform.position.y, 16, 20);
+            cam.transform.position = new Vector3(48, camy, -10);
         }
-
-        if (karakterinPozisyonu.y < -5)
+        else
         {
-            if(karakterinPozisyonu.y < -18.5f)
+            if (karakterinPozisyonu.y > -5)
             {
-                float camy = Mathf.Clamp(transform.position.y, -40, -23);
-                float camx = Mathf.Clamp(transform.position.x, -22, 30);
+                float camx = Mathf.Clamp(transform.position.x, -2, 2);
+                float camy = Mathf.Clamp(transform.position.y, 0, 2);
 
                 cam.transform.position = new Vector3(camx, camy, -10);
             }
-            else
+
+            if (karakterinPozisyonu.y < -5)
             {
-                float camy = Mathf.Clamp(transform.position.y, -13.75f, -9.5f);
-                cam.transform.position = new Vector3(0, camy, -10);
+                if (karakterinPozisyonu.y < -18.5f)
+                {
+                    float camy = Mathf.Clamp(transform.position.y, -40, -23);
+                    float camx = Mathf.Clamp(transform.position.x, -22, 30);
+
+                    cam.transform.position = new Vector3(camx, camy, -10);
+                }
+                else
+                {
+                    float camy = Mathf.Clamp(transform.position.y, -13.75f, -9.5f);
+                    cam.transform.position = new Vector3(0, camy, -10);
+                }
+
+
+
             }
-
-            
-
         }
+
+
+        
 
         
 
@@ -59,4 +70,26 @@ public class PlayerMovement : MonoBehaviour
     {
         rb.MovePosition(rb.position + movement * speed * Time.fixedDeltaTime);
     }
+
+    private void OnTriggerEnter2D(Collider2D trigger)
+    {
+        if(trigger.gameObject.tag == "kapi")
+        {
+            evinIcinde = true;
+            
+
+
+            transform.position = new Vector3(49, 13 , 0);
+        }
+
+        if (trigger.gameObject.tag == "kapicikis")
+        {
+            evinIcinde = false;
+
+            transform.position = new Vector3(3.5f, 0.58f, 0);
+
+        }
+    }
+
+    
 }
