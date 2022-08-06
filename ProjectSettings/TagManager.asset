@@ -6,6 +6,8 @@ TagManager:
   tags:
   - kapi
   - kapicikis
+  - carpma
+  - Enemy
   layers:
   - Default
   - TransparentFX
