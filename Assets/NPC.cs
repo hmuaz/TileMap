@@ -63,14 +63,7 @@ public class NPC : MonoBehaviour
     }
 
 
-    IEnumerator DuvaraTakiliKalma()
-    {
-        Debug.Log("he");
-        yield return new WaitForSeconds(1);
-        ChangeDirection();
-
-        
-    }
+    
 
     //private void OnCollisionEnter2D(Collision2D collision)
     //{
@@ -87,6 +80,7 @@ public class NPC : MonoBehaviour
         if(collision.gameObject.tag == "Player")
         {
             directionVector = Vector3.zero;
+            anim.SetBool("temas", true);
         }
 
         else if (collision.gameObject.tag == "carpma" || collision.gameObject.tag == "Enemy")
@@ -102,6 +96,9 @@ public class NPC : MonoBehaviour
         if (collision.gameObject.tag == "Player")
         {
             ChangeDirection();
+            anim.SetBool("temas", false);
+
+
         }
     }
 
@@ -111,5 +108,8 @@ public class NPC : MonoBehaviour
         anim.SetFloat("MoveY", directionVector.y);
 
     }
+
+    
+
 }
 
