@@ -14,7 +14,16 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        karakterinPozisyonu = transform.position;
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            speed = 9; 
+        }
+        else
+        {
+            speed = 5;
+        }
+
+            karakterinPozisyonu = transform.position;
 
         if (evinIcinde)
         {
@@ -63,6 +72,8 @@ public class PlayerMovement : MonoBehaviour
         animator.SetFloat("Horizontal", movement.x);
         animator.SetFloat("Vertical", movement.y);
         animator.SetFloat("Speed", movement.sqrMagnitude);
+
+        
 
     }
 
