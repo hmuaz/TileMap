@@ -10,9 +10,11 @@ public class NPC : MonoBehaviour
     public float speed;
     public float currentSpeed;
     public bool duvaraDeyiyor = false;
+    Animator anim;
 
     void Start()
     {
+        anim = GetComponent<Animator>();
         myTransform = GetComponent<Transform>();
         rb = GetComponent<Rigidbody2D>();
         ChangeDirection();
@@ -52,6 +54,7 @@ public class NPC : MonoBehaviour
             default:
                 break;
         }
+        UpdateAnimation();
     }
 
     void Move()
@@ -100,6 +103,13 @@ public class NPC : MonoBehaviour
         {
             ChangeDirection();
         }
+    }
+
+    void UpdateAnimation()
+    {
+        anim.SetFloat("MoveX", directionVector.x);
+        anim.SetFloat("MoveY", directionVector.y);
+
     }
 }
 
