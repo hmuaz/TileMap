@@ -1,16 +1,24 @@
- using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class NPC : MonoBehaviour
 {
-    private Vector3 directionVector;
+    public Vector3 directionVector;
     Transform myTransform;
     Rigidbody2D rb;
     public float speed;
     public float currentSpeed;
     public bool duvaraDeyiyor = false;
+    public bool playernpcTemas = false;
+    public bool dilayogPenceresiAcik = false;
+    public bool konusmaVar = false;
+    
     Animator anim;
+
+    public Text npcSpeak;
+    public GameObject diyalogPenceresi;
 
     void Start()
     {
@@ -24,8 +32,31 @@ public class NPC : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
-        
+        if (playernpcTemas)
+        {
+
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                diyalogPenceresi.SetActive(true);
+            }
+
+
+
+        }
+
+
+
+
+
+        //else if(diyalogPenceresi.active == true)
+        //{
+        //    if (Input.GetKey(KeyCode.Space))
+        //    {
+        //        diyalogPenceresi.SetActive(false);
+
+        //    }
+        //}
+
     }
 
 
@@ -63,7 +94,7 @@ public class NPC : MonoBehaviour
     }
 
 
-    
+
 
     //private void OnCollisionEnter2D(Collision2D collision)
     //{
@@ -75,17 +106,29 @@ public class NPC : MonoBehaviour
 
     private void OnCollisionStay2D(Collision2D collision)
     {
-        
 
-        if(collision.gameObject.tag == "Player")
+
+        if (collision.gameObject.tag == "Player")
         {
-            directionVector = Vector3.zero;
-            anim.SetBool("temas", true);
+            if (!konusmaVar)
+            {
+                Debug.Log("as");
+                directionVector = Vector3.zero;
+                anim.SetBool("temas", true);
+                playernpcTemas = true;
+
+            }
+
+
         }
 
         else if (collision.gameObject.tag == "carpma" || collision.gameObject.tag == "Enemy")
         {
-            ChangeDirection();
+            if (!konusmaVar)
+            {
+                ChangeDirection();
+            }
+
         }
 
 
@@ -95,9 +138,16 @@ public class NPC : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
-            ChangeDirection();
+            if (!konusmaVar)
+            {
+                ChangeDirection();
+            }
+            UpdateAnimation();
+            StartCoroutine(ColliderAktiflestirme());
             anim.SetBool("temas", false);
-
+            playernpcTemas = false;
+            diyalogPenceresi.SetActive(false);
+            konusmaVar = false;
 
         }
     }
@@ -110,6 +160,13 @@ public class NPC : MonoBehaviour
     }
 
     
+    public IEnumerator ColliderAktiflestirme()
+    {
+        yield return new WaitForSeconds(0.8f);
+        GetComponent<CircleCollider2D>().enabled = true;
+    }
+    
+
 
 }
 
